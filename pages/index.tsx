@@ -1,6 +1,8 @@
 import styles from '../styles/Home.module.css'
 import { FormEvent, useContext, useState } from 'react';
+
 import { AuthContext } from '../contexts/AuthContext';
+import { withSSRGuest } from '../utils/withSSRGuest';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -28,3 +30,10 @@ export default function Home() {
     </form>
   )
 }
+
+// não deixar um usuário que já está logado acessar uma página expecífica
+export const getServerSideProps = withSSRGuest(async (context) => {
+  return {
+    props: {}
+  }
+});
