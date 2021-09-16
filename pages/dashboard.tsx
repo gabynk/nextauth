@@ -7,8 +7,10 @@ import { setupAPIClient } from "../services/api";
 import { api } from "../services/apiClient";
 import { withSSRAuth } from "../utils/withSSRAuth";
 
+import styles from '../styles/Home.module.css'
+
 export default function Dashboard() {
-    const { user } = useContext(AuthContext);
+    const { user, signOut } = useContext(AuthContext);
 
     const userCanSeeMetrics = useCan({
         permissions: ['metrics.list']
@@ -21,7 +23,7 @@ export default function Dashboard() {
     }, [])
 
     return (
-        <>
+        <div className={styles.container}>
             <h1>Dashboard: {user?.email}</h1>
 
             {userCanSeeMetrics && <div>Métricas</div>}
@@ -29,7 +31,9 @@ export default function Dashboard() {
             <Can roles={['editor']}>
                 <div>Métricas em componente</div>
             </Can>
-        </>
+
+            <button onClick={signOut}>Sign out</button>
+        </div>
     )
 }
 
